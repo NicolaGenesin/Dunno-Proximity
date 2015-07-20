@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -20,11 +22,12 @@ import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements ApplicationDataHolder {
 
     int mRadius = 10;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private SimpleFacebook mSimpleFacebook;
+    private ApplicationData mApplicationData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,16 @@ public class MainActivity extends FragmentActivity {
         setUpFacebook();
         setContentView(R.layout.activity_maps);
         //setUpMapIfNeeded();
+
+        mApplicationData = new ApplicationData();
+        
+        //tmp add fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FriendsSelectorFragment fragment = new FriendsSelectorFragment();
+        fragmentTransaction.add(R.id.container, fragment);
+        fragmentTransaction.commit();
 
         mSimpleFacebook.login(new OnFacebookLoginListener());
     }
@@ -63,6 +76,7 @@ public class MainActivity extends FragmentActivity {
             mSimpleFacebook = SimpleFacebook.getInstance(this);
         return SimpleFacebook.getInstance(this);
     }
+
 
     @Override
     protected void onResume() {
@@ -182,5 +196,10 @@ public class MainActivity extends FragmentActivity {
             default:
         }
         return true;
+    }
+
+    @Override
+    public ApplicationData getApplicationData() {
+        return mApplicationData;
     }
 }
