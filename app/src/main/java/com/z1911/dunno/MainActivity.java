@@ -1,5 +1,6 @@
 package com.z1911.dunno;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,25 +16,61 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sromku.simple.fb.Permission;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.SimpleFacebookConfiguration;
 
 public class MainActivity extends FragmentActivity {
 
     int mRadius = 10;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private SimpleFacebook mSimpleFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setUpFacebook();
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+        //setUpMapIfNeeded();
 
+        mSimpleFacebook.login(new OnFacebookLoginListener());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setUpFacebook() {
+        Permission[] permissions = new Permission[]{
+                Permission.USER_PHOTOS,
+                Permission.EMAIL,
+                Permission.PUBLISH_ACTION
+        };
+        SimpleFacebookConfiguration configuration = new SimpleFacebookConfiguration.Builder()
+                .setAppId(getString(R.string.facebook_app_id))
+                .setNamespace(getApplicationContext().getPackageName())
+                .setPermissions(permissions)
+                .build();
+
+        SimpleFacebook.setConfiguration(configuration);
+        mSimpleFacebook = GetFacebookInstance();
+    }
+
+    private SimpleFacebook GetFacebookInstance() {
+        if (mSimpleFacebook == null)
+            mSimpleFacebook = SimpleFacebook.getInstance(this);
+        return SimpleFacebook.getInstance(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mSimpleFacebook = GetFacebookInstance();
 
         setUpMapIfNeeded();
+        AppEventsLogger.activateApp(this);
     }
 
     /**
@@ -51,16 +89,24 @@ public class MainActivity extends FragmentActivity {
      * method in {@link #onResume()} to guarantee that it will be called.
      */
     private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
+//        // Do a null check to confirm that we have not already instantiated the map.
+//        if (mMap == null) {
+//            // Try to obtain the map from the SupportMapFragment.
+//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+//                    .getMap();
+//            // Check if we were successful in obtaining the map.
+//            if (mMap != null) {
+//                setUpMap();
+//            }
+//        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 
     /**
@@ -137,6 +183,4 @@ public class MainActivity extends FragmentActivity {
         }
         return true;
     }
-
-
 }
