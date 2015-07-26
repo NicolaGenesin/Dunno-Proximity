@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +25,11 @@ import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 
 public class MainActivity extends FragmentActivity implements ApplicationDataHolder {
+    
+    @InjectExtra("key_1")
+    String extra1;
+    @InjectExtra("key_2")
+    int extra2;
 
     int mRadius = 10;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -32,12 +39,13 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Dart.inject(this);
         setUpFacebook();
         setContentView(R.layout.activity_maps);
         //setUpMapIfNeeded();
 
         mApplicationData = new ApplicationData();
-        
+
         //tmp add fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
