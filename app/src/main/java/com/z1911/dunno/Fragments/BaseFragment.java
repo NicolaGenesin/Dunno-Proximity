@@ -1,7 +1,10 @@
-package com.z1911.dunno;
+package com.z1911.dunno.Fragments;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+
+import com.z1911.dunno.Models.ApplicationData;
+import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 
 /**
  * Created by nicola on 21/07/2015.

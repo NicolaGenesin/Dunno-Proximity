@@ -1,10 +1,13 @@
-package com.z1911.dunno;
+package com.z1911.dunno.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.z1911.dunno.Fragments.BaseFragment;
+import com.z1911.dunno.R;
 
 /**
  * Created by nicola on 20/07/2015.

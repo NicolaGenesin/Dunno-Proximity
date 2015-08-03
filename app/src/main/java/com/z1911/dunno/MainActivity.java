@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,13 +22,19 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.z1911.dunno.Fragments.FriendsSelectorFragment;
+import com.z1911.dunno.Fragments.MainPageFragment;
+import com.z1911.dunno.Interfaces.ApplicationDataHolder;
+import com.z1911.dunno.Listeners.OnFacebookLoginListener;
+import com.z1911.dunno.Models.ApplicationData;
+import com.z1911.dunno.Models.RangeLocation;
 
 public class MainActivity extends FragmentActivity implements ApplicationDataHolder {
     
-    @InjectExtra("key_1")
-    String extra1;
-    @InjectExtra("key_2")
-    int extra2;
+//    @InjectExtra("key_1")
+//    String extra1;
+//    @InjectExtra("key_2")
+//    int extra2;
 
     int mRadius = 10;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -40,7 +45,10 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Dart.inject(this);
+
         setUpFacebook();
+        mSimpleFacebook.login(new OnFacebookLoginListener());
+
         setContentView(R.layout.activity_maps);
         //setUpMapIfNeeded();
 
@@ -50,11 +58,17 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FriendsSelectorFragment fragment = new FriendsSelectorFragment();
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                int a = getFragmentManager().getBackStackEntryCount();
+                Log.wtf("STACK_COUNT", a + "");
+            }
+        });
+
+        MainPageFragment fragment = new MainPageFragment();
         fragmentTransaction.add(R.id.container, fragment);
         fragmentTransaction.commit();
-
-        mSimpleFacebook.login(new OnFacebookLoginListener());
     }
 
     @Override
@@ -91,7 +105,7 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
         super.onResume();
         mSimpleFacebook = GetFacebookInstance();
 
-        setUpMapIfNeeded();
+        //setUpMapIfNeeded();
         AppEventsLogger.activateApp(this);
     }
 
@@ -111,16 +125,16 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
      * method in {@link #onResume()} to guarantee that it will be called.
      */
     private void setUpMapIfNeeded() {
-//        // Do a null check to confirm that we have not already instantiated the map.
-//        if (mMap == null) {
-//            // Try to obtain the map from the SupportMapFragment.
-//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-//                    .getMap();
-//            // Check if we were successful in obtaining the map.
-//            if (mMap != null) {
-//                setUpMap();
-//            }
-//        }
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.big_container))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
     }
 
     @Override
@@ -205,6 +219,21 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getFragmentManager().popBackStack();
+        }
+
+    }
+
 
     @Override
     public ApplicationData getApplicationData() {

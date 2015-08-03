@@ -1,4 +1,4 @@
-package com.z1911.dunno;
+package com.z1911.dunno.Models;
 
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Profile;
