@@ -1,9 +1,6 @@
 package com.z1911.dunno.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by nicola on 03/08/2015.
  */
-public class MainPageFragment extends Fragment {
+public class MainPageFragment extends BaseFragment {
     @Bind(R.id.button_searchEvent)
     Button mButtonSearch;
     @Bind(R.id.button_createEvent)
@@ -34,24 +31,21 @@ public class MainPageFragment extends Fragment {
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                SearchEventFragment fragment = new SearchEventFragment();
-                ft.add(R.id.container, fragment).addToBackStack("tag").commit();
+                replaceFragment(R.id.container,new SearchEventFragment());
             }
         });
 
         mButtonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                replaceFragment(R.id.container,new CreateEventFragment());
             }
         });
 
         mButtonCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                replaceFragment(R.id.container,new CollectionFragment());
             }
         });
 

@@ -14,7 +14,6 @@ public class OnFacebookLoginListener implements OnLoginListener {
     @Override
     public void onLogin(String s, List<Permission> list, List<Permission> list1) {
         Log.i("Facebook", "Logged in");
-
     }
 
     @Override

@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.f2prateek.dart.Dart;
 import com.facebook.appevents.AppEventsLogger;
@@ -22,15 +24,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.sromku.simple.fb.listeners.OnLogoutListener;
+import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.FriendsSelectorFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
+import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
 import com.z1911.dunno.Models.RangeLocation;
 
 public class MainActivity extends FragmentActivity implements ApplicationDataHolder {
-    
+
 //    @InjectExtra("key_1")
 //    String extra1;
 //    @InjectExtra("key_2")
@@ -44,31 +49,27 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Dart.inject(this);
-
-        setUpFacebook();
-        mSimpleFacebook.login(new OnFacebookLoginListener());
-
         setContentView(R.layout.activity_maps);
         //setUpMapIfNeeded();
 
         mApplicationData = new ApplicationData();
+        setUpFacebook();
+        addMainFragment();
+    }
 
-        //tmp add fragment
+    private void addMainFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                int a = getFragmentManager().getBackStackEntryCount();
-                Log.wtf("STACK_COUNT", a + "");
-            }
-        });
-
-        MainPageFragment fragment = new MainPageFragment();
-        fragmentTransaction.add(R.id.container, fragment);
-        fragmentTransaction.commit();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Fragment fragment;
+        if (mSimpleFacebook.isLogin()){
+            fragment = new MainPageFragment();
+        }else{
+            fragment = new FacebookFragment();
+        }
+        ft.add(R.id.container, fragment);
+        ft.commit();
     }
 
     @Override
@@ -93,7 +94,7 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
         mSimpleFacebook = GetFacebookInstance();
     }
 
-    private SimpleFacebook GetFacebookInstance() {
+    public SimpleFacebook GetFacebookInstance() {
         if (mSimpleFacebook == null)
             mSimpleFacebook = SimpleFacebook.getInstance(this);
         return SimpleFacebook.getInstance(this);
@@ -207,27 +208,24 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
         switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP: {
-                mRadius += 10;
+            case KeyEvent.KEYCODE_VOLUME_DOWN: {
+                mSimpleFacebook.logout(new OnFacebookLogoutListener());
                 break;
             }
-            case KeyEvent.KEYCODE_VOLUME_DOWN: {
-                mRadius -= 10;
+            case KeyEvent.KEYCODE_VOLUME_UP: {
+                mSimpleFacebook.login(new OnFacebookLoginListener());
                 break;
             }
             default:
         }
-        return true;
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
     public void onBackPressed() {
-
         int count = getFragmentManager().getBackStackEntryCount();
-
         if (count == 0) {
             super.onBackPressed();
-            //additional code
         } else {
             getFragmentManager().popBackStack();
         }
