@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.f2prateek.dart.Dart;
 import com.facebook.appevents.AppEventsLogger;
@@ -24,9 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
-import com.sromku.simple.fb.listeners.OnLogoutListener;
 import com.z1911.dunno.Fragments.FacebookFragment;
-import com.z1911.dunno.Fragments.FriendsSelectorFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
@@ -56,19 +53,25 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
 
         mApplicationData = new ApplicationData();
         setUpFacebook();
-        addMainFragment();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addMainFragment();
+            }
+        },2000);
     }
 
     private void addMainFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         Fragment fragment;
-        if (mSimpleFacebook.isLogin()){
+        if (mSimpleFacebook.isLogin()) {
             fragment = new MainPageFragment();
-        }else{
+        } else {
             fragment = new FacebookFragment();
         }
-        ft.add(R.id.container, fragment);
+        ft.replace(R.id.container, fragment);
         ft.commit();
     }
 
@@ -76,6 +79,7 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        addMainFragment();
     }
 
     private void setUpFacebook() {
