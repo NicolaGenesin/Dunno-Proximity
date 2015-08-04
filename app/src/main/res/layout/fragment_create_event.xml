@@ -21,17 +21,6 @@
         android:id="@+id/label_eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date" />
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="text_eventDate"
-        android:id="@+id/text_eventDate" />
-
-    <TextView
-        android:id="@+id/label_eventTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Time" />
 
     <EditText
@@ -39,7 +28,7 @@
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
-        android:id="@+id/text_eventTime"
+        android:id="@+id/text_eventDate"
         android:layout_gravity="center_horizontal" />
 
     <TextView
@@ -59,5 +48,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create medal"
-        android:id="@+id/button_previewEvent" />
+        android:id="@+id/button_createEventMedal" />
 </LinearLayout>
