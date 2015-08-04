@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.z1911.dunno.Fragments.BaseFragment;
 import com.z1911.dunno.R;
 
 /**
@@ -21,7 +20,7 @@ public class FriendsSelectorFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.friends_selector_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_friend_selector, container, false);
 
         mListView = (ListView) view.findViewById(R.id.friends_list);
 
