@@ -26,12 +26,13 @@ import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
+import com.z1911.dunno.Interfaces.FragmentListener;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
 import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
 import com.z1911.dunno.Models.RangeLocation;
 
-public class MainActivity extends FragmentActivity implements ApplicationDataHolder {
+public class MainActivity extends FragmentActivity implements ApplicationDataHolder, FragmentListener {
 
 //    @InjectExtra("key_1")
 //    String extra1;
@@ -240,5 +241,20 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     @Override
     public ApplicationData getApplicationData() {
         return mApplicationData;
+    }
+
+    @Override
+    public void onChange(Fragment fragment) {
+        FragmentManager fm = this.getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.container, fragment).addToBackStack(fragment.getClass().toString()).commit();
+    }
+
+    @Override
+    public void clearFragmentManagerBackStack() {
+        FragmentManager fm = this.getSupportFragmentManager();
+        while (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStackImmediate();
+        }
     }
 }

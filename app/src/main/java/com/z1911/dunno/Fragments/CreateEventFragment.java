@@ -1,12 +1,12 @@
 package com.z1911.dunno.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.z1911.dunno.Interfaces.FragmentListener;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -39,7 +39,7 @@ public class CreateEventFragment extends BaseFragment {
                 String date = mTextEventDate.getText().toString();
 
                 if (!name.isEmpty() && !type.isEmpty() && !date.isEmpty()) {
-                    replaceFragment(R.id.container, new PreviewMedalFragment());
+                    ((FragmentListener) getActivity()).onChange(new PreviewMedalFragment());
                 }
             }
         });

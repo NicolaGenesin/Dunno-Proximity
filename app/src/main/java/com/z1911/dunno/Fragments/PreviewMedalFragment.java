@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.z1911.dunno.Interfaces.FragmentListener;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -28,7 +29,7 @@ public class PreviewMedalFragment extends BaseFragment {
         mButtonMedal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(R.id.container, new CreateEventMapsPage());
+                ((FragmentListener) getActivity()).onChange(new CreateEventMapsFragment());
             }
         });
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.z1911.dunno.Interfaces.FragmentListener;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -26,26 +27,26 @@ public class MainPageFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(R.id.container,new SearchEventFragment());
+                ((FragmentListener) getActivity()).onChange(new SearchEventFragment());
             }
         });
 
         mButtonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(R.id.container,new CreateEventFragment());
+                ((FragmentListener) getActivity()).onChange(new CreateEventFragment());
             }
         });
 
         mButtonCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(R.id.container,new CollectionFragment());
+                ((FragmentListener) getActivity()).onChange(new CollectionFragment());
             }
         });
 

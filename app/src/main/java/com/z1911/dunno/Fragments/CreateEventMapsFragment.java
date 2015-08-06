@@ -1,12 +1,12 @@
 package com.z1911.dunno.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.z1911.dunno.Interfaces.FragmentListener;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 /**
  * Created by nicola on 04/08/2015.
  */
-public class CreateEventMapsPage extends BaseFragment {
+public class CreateEventMapsFragment extends BaseFragment {
 
     @Bind(R.id.button_acceptMap)
     Button mButtonAcceptMap;
@@ -29,7 +29,7 @@ public class CreateEventMapsPage extends BaseFragment {
         mButtonAcceptMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //replaceFragment(R.id.container, new CreateEventMapsPage());
+                ((FragmentListener) getActivity()).onChange(new ConfirmCreateEventFragment());
             }
         });
 
