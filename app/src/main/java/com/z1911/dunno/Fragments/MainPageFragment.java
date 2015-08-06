@@ -19,8 +19,6 @@ import butterknife.OnClick;
 public class MainPageFragment extends BaseFragment {
     @Bind(R.id.button_searchEvent)
     Button mButtonSearch;
-    @Bind(R.id.button_createEvent)
-    Button mButtonCreate;
     @Bind(R.id.button_collection)
     Button mButtonCollection;
 
@@ -36,11 +34,6 @@ public class MainPageFragment extends BaseFragment {
     @OnClick(R.id.button_searchEvent)
     public void searchPressEvent() {
         ((FragmentListener) getActivity()).onChange(new SearchEventFragment());
-    }
-
-    @OnClick(R.id.button_createEvent)
-    public void createPressEvent() {
-        ((FragmentListener) getActivity()).onChange(new CreateEventFragment());
     }
 
     @OnClick(R.id.button_collection)

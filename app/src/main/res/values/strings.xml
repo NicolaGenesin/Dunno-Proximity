@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Dunno</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Events</string>
+    <string name="title_activity">Events</string>
 </resources>
