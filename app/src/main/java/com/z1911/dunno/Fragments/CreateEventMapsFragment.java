@@ -11,6 +11,7 @@ import com.z1911.dunno.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by nicola on 04/08/2015.
@@ -26,13 +27,11 @@ public class CreateEventMapsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_maps_create_event, container, false);
         ButterKnife.bind(this, view);
 
-        mButtonAcceptMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FragmentListener) getActivity()).onChange(new ConfirmCreateEventFragment());
-            }
-        });
-
         return view;
+    }
+
+    @OnClick(R.id.button_acceptMap)
+    public void acceptMapPressEvent() {
+        ((FragmentListener) getActivity()).onChange(new ConfirmCreateEventFragment());
     }
 }

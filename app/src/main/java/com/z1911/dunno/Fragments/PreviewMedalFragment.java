@@ -11,6 +11,7 @@ import com.z1911.dunno.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by nicola on 04/08/2015.
@@ -26,13 +27,11 @@ public class PreviewMedalFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_preview_medal, container, false);
         ButterKnife.bind(this, view);
 
-        mButtonMedal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FragmentListener) getActivity()).onChange(new CreateEventMapsFragment());
-            }
-        });
-
         return view;
+    }
+
+    @OnClick(R.id.button_acceptMedal)
+    public void acceptMedalPressEvent() {
+        ((FragmentListener) getActivity()).onChange(new CreateEventMapsFragment());
     }
 }

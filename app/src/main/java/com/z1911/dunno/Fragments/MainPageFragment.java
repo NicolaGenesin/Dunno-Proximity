@@ -11,6 +11,7 @@ import com.z1911.dunno.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by nicola on 03/08/2015.
@@ -29,27 +30,22 @@ public class MainPageFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
         ButterKnife.bind(this, view);
 
-        mButtonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FragmentListener) getActivity()).onChange(new SearchEventFragment());
-            }
-        });
-
-        mButtonCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FragmentListener) getActivity()).onChange(new CreateEventFragment());
-            }
-        });
-
-        mButtonCollection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((FragmentListener) getActivity()).onChange(new CollectionFragment());
-            }
-        });
-
         return view;
     }
+
+    @OnClick(R.id.button_searchEvent)
+    public void searchPressEvent() {
+        ((FragmentListener) getActivity()).onChange(new SearchEventFragment());
+    }
+
+    @OnClick(R.id.button_createEvent)
+    public void createPressEvent() {
+        ((FragmentListener) getActivity()).onChange(new CreateEventFragment());
+    }
+
+    @OnClick(R.id.button_collection)
+    public void collectPressEvent() {
+        ((FragmentListener) getActivity()).onChange(new CollectionFragment());
+    }
+
 }

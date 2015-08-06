@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
             public void run() {
                 addMainFragment();
             }
-        },2000);
+        }, 2000);
     }
 
     private void addMainFragment() {
@@ -251,10 +251,14 @@ public class MainActivity extends FragmentActivity implements ApplicationDataHol
     }
 
     @Override
-    public void clearFragmentManagerBackStack() {
-        FragmentManager fm = this.getSupportFragmentManager();
-        while (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStackImmediate();
+    public void onChange(Fragment fragment, boolean clearFragmentManagerBackStack) {
+        if (clearFragmentManagerBackStack){
+            FragmentManager fm = this.getSupportFragmentManager();
+            while (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStackImmediate();
+            }
         }
+        onChange(fragment);
     }
+
 }

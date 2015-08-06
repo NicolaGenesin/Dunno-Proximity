@@ -7,6 +7,5 @@ import android.support.v4.app.Fragment;
  */
 public interface FragmentListener {
     void onChange(Fragment fragment);
-
-    void clearFragmentManagerBackStack();
+    void onChange(Fragment fragment,boolean clearFragmentManagerBackStack);
 }
