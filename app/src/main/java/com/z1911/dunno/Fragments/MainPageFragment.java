@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.z1911.dunno.Interfaces.FragmentListener;
+import com.z1911.dunno.Interfaces.FragmentHolder;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -17,10 +17,6 @@ import butterknife.OnClick;
  * Created by nicola on 03/08/2015.
  */
 public class MainPageFragment extends BaseFragment {
-    @Bind(R.id.button_searchEvent)
-    Button mButtonSearch;
-    @Bind(R.id.button_collection)
-    Button mButtonCollection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +29,12 @@ public class MainPageFragment extends BaseFragment {
 
     @OnClick(R.id.button_searchEvent)
     public void searchPressEvent() {
-        ((FragmentListener) getActivity()).onChange(new SearchEventFragment());
+        mFragmentHolder.onChange(new SearchEventFragment());
     }
 
     @OnClick(R.id.button_collection)
     public void collectPressEvent() {
-        ((FragmentListener) getActivity()).onChange(new CollectionFragment());
+        mFragmentHolder.onChange(new CollectionFragment());
     }
 
 }

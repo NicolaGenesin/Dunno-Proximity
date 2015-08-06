@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
+import com.z1911.dunno.Interfaces.FacebookHolder;
+import com.z1911.dunno.Interfaces.FragmentHolder;
 import com.z1911.dunno.Models.ApplicationData;
 
 /**
@@ -14,25 +16,28 @@ import com.z1911.dunno.Models.ApplicationData;
  */
 public class BaseFragment extends Fragment {
 
-    protected ApplicationData mApplicationData;
+    protected ApplicationDataHolder mApplicationDataHolder;
+    protected FragmentHolder mFragmentHolder;
+    protected FacebookHolder mFacebookHolder;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        getDataFromActivity(activity);
-    }
-
-    public void getDataFromActivity(Activity activity) {
-        if (activity instanceof ApplicationDataHolder) {
-            mApplicationData = ((ApplicationDataHolder) activity).getApplicationData();
-        } else
-            throw new IllegalStateException("Activity must implement ApplicationDataHolder interface");
+        try {
+            mFacebookHolder = (FacebookHolder) activity;
+            mFragmentHolder = (FragmentHolder) activity;
+            mApplicationDataHolder = (ApplicationDataHolder) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement FragmentHolder&&ApplicationDataHolder&&FacebookHolder");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mApplicationData = null;
+        mFacebookHolder = null;
+        mFragmentHolder = null;
+        mApplicationDataHolder = null;
     }
 
 }

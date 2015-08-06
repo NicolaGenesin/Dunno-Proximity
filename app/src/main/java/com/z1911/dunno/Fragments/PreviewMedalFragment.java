@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.z1911.dunno.Interfaces.FragmentListener;
+import com.z1911.dunno.Interfaces.FragmentHolder;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -32,6 +32,6 @@ public class PreviewMedalFragment extends BaseFragment {
 
     @OnClick(R.id.button_acceptMedal)
     public void acceptMedalPressEvent() {
-        ((FragmentListener) getActivity()).onChange(new CreateEventMapsFragment());
+        mFragmentHolder.onChange(new CreateEventMapsFragment());
     }
 }

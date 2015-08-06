@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 /**
  * Created by nicola on 06/08/2015.
  */
-public interface FragmentListener {
+public interface FragmentHolder {
     void onChange(Fragment fragment);
     void onChange(Fragment fragment,boolean clearFragmentManagerBackStack);
 }

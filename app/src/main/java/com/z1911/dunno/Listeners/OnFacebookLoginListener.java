@@ -23,12 +23,12 @@ public class OnFacebookLoginListener implements OnLoginListener {
 
     @Override
     public void onException(Throwable throwable) {
-        Log.i("Facebook", "exception "+ throwable.getMessage().toString());
+        Log.i("Facebook", "exception " + throwable.getMessage().toString());
     }
 
     @Override
     public void onFail(String s) {
-        Log.i("Facebook", "exception "+ s);
+        Log.i("Facebook", "exception " + s);
 
     }
 }

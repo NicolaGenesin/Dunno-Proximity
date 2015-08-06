@@ -15,19 +15,28 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.sromku.simple.fb.entities.Event;
+import com.sromku.simple.fb.entities.Profile;
+import com.sromku.simple.fb.listeners.OnFriendsListener;
 import com.z1911.dunno.Fragments.CreateEventFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
+import com.z1911.dunno.Fragments.FriendsSelectorFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
-import com.z1911.dunno.Interfaces.FragmentListener;
+import com.z1911.dunno.Interfaces.FacebookHolder;
+import com.z1911.dunno.Interfaces.FragmentHolder;
+import com.z1911.dunno.Listeners.OnFacebookEventListener;
+import com.z1911.dunno.Listeners.OnFacebookFriendsListener;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
 import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements ApplicationDataHolder, FragmentListener {
+public class MainActivity extends AppCompatActivity implements ApplicationDataHolder, FragmentHolder, FacebookHolder {
 
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private SimpleFacebook mSimpleFacebook;
@@ -163,6 +172,37 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
             }
         }
         onChange(fragment);
+    }
+
+    @Override
+    public void getFriends(String FragmentName) {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentName);
+        if (fragment instanceof FriendsSelectorFragment){
+            final FriendsSelectorFragment castedFragment = ((FriendsSelectorFragment)fragment);
+            mSimpleFacebook.getFriends(new OnFriendsListener() {
+                @Override
+                public void onComplete(List<Profile> response) {
+                    super.onComplete(response);
+                    castedFragment.setTestList(response);
+                    castedFragment.getAdapter().notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void getEvents() {
+        mSimpleFacebook.getEvents(Event.EventDecision.ATTENDING, new OnFacebookEventListener());
+    }
+
+    @Override
+    public void login() {
+        mSimpleFacebook.login(new OnFacebookLoginListener());
+    }
+
+    @Override
+    public void logout() {
+        mSimpleFacebook.logout(new OnFacebookLogoutListener());
     }
 
 

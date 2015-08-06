@@ -5,9 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.z1911.dunno.Interfaces.FragmentListener;
+import com.z1911.dunno.Interfaces.FragmentHolder;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -20,7 +19,6 @@ import butterknife.OnClick;
 public class ConfirmCreateEventFragment extends BaseFragment {
     @Bind(R.id.button_create_event_confirmation)
     Button mButtonEventConfirmation;
-    FragmentListener activityListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,14 +31,12 @@ public class ConfirmCreateEventFragment extends BaseFragment {
 
     @OnClick(R.id.button_create_event_confirmation)
     public void createEventPressEvent() {
-        activityListener = ((FragmentListener) getActivity());
-        activityListener.onChange(new MainPageFragment(),true);
+        mFragmentHolder.onChange(new MainPageFragment(),true);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        activityListener = null;
     }
 
 }
