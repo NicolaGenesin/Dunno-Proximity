@@ -1,5 +1,6 @@
 package com.z1911.dunno;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,8 @@ import android.view.KeyEvent;
 import com.f2prateek.dart.Dart;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
@@ -20,7 +23,6 @@ import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnFriendsListener;
 import com.z1911.dunno.Fragments.CreateEventFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
-import com.z1911.dunno.Fragments.FriendsSelectorFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 import com.z1911.dunno.Interfaces.FacebookHolder;
@@ -41,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private SimpleFacebook mSimpleFacebook;
     private ApplicationData mApplicationData;
+    private Bus mBus;
+
+    public Bus getBus() {
+        return mBus;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +57,15 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
         Dart.inject(this);
         ButterKnife.bind(this);
 
-        //setUpMapIfNeeded();
-
         mApplicationData = new ApplicationData();
+        setUpBus(this);
         setUpFacebook();
         setUpFirstFragment();
+    }
+
+    private void setUpBus(Context context) {
+        mBus = new Bus(ThreadEnforcer.MAIN);
+        mBus.register(this);
     }
 
     public void setUpFirstFragment() {
@@ -176,18 +187,28 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
 
     @Override
     public void getFriends(String FragmentName) {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentName);
-        if (fragment instanceof FriendsSelectorFragment){
-            final FriendsSelectorFragment castedFragment = ((FriendsSelectorFragment)fragment);
-            mSimpleFacebook.getFriends(new OnFriendsListener() {
-                @Override
-                public void onComplete(List<Profile> response) {
-                    super.onComplete(response);
-                    castedFragment.setTestList(response);
-                    castedFragment.getAdapter().notifyDataSetChanged();
-                }
-            });
-        }
+//        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentName);
+//        if (fragment instanceof FriendsSelectorFragment){
+//            final FriendsSelectorFragment castedFragment = ((FriendsSelectorFragment)fragment);
+//            mSimpleFacebook.getFriends(new OnFriendsListener() {
+//                @Override
+//                public void onComplete(List<Profile> response) {
+//                    super.onComplete(response);
+//                    castedFragment.setTestList(response);
+//                    castedFragment.getAdapter().notifyDataSetChanged();
+//                }
+//            });
+//        }
+
+//        mSimpleFacebook.getFriends(new OnFriendsListener() {
+//            @Override
+//            public void onComplete(List<Profile> response) {
+//                super.onComplete(response);
+//                getBus().post(response);
+//            }
+//        });
+
+        mSimpleFacebook.getFriends(new OnFacebookFriendsListener(mBus));
     }
 
     @Override

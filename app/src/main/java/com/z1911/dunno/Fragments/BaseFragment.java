@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 import com.z1911.dunno.Interfaces.FacebookHolder;
 import com.z1911.dunno.Interfaces.FragmentHolder;
+import com.z1911.dunno.MainActivity;
 import com.z1911.dunno.Models.ApplicationData;
 
 /**
@@ -24,6 +25,7 @@ public class BaseFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
+            ((MainActivity) activity).getBus().register(this);
             mFacebookHolder = (FacebookHolder) activity;
             mFragmentHolder = (FragmentHolder) activity;
             mApplicationDataHolder = (ApplicationDataHolder) activity;
@@ -35,6 +37,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        ((MainActivity) getActivity()).getBus().unregister(this);
         mFacebookHolder = null;
         mFragmentHolder = null;
         mApplicationDataHolder = null;

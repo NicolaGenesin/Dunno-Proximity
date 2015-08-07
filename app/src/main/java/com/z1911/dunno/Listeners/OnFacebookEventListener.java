@@ -11,9 +11,11 @@ import java.util.List;
  * Created by nicola on 06/08/2015.
  */
 public class OnFacebookEventListener extends OnEventsListener {
+
+
     @Override
     public void onComplete(List<Event> events) {
-        Log.i("Facebook", "Number of events = " + events.size());
+        super.onComplete(events);
     }
 
     @Override

@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.z1911.dunno.Interfaces.FragmentHolder;
+import com.squareup.otto.Subscribe;
+import com.sromku.simple.fb.entities.Profile;
+import com.z1911.dunno.Interfaces.FacebookHolder;
+import com.z1911.dunno.MainActivity;
 import com.z1911.dunno.R;
 
-import butterknife.Bind;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,7 +28,14 @@ public class MainPageFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
         ButterKnife.bind(this, view);
 
+        if (getActivity() instanceof FacebookHolder)
+            mFacebookHolder.getFriends(this.getClass().toString());
+
         return view;
+    }
+
+    @Subscribe
+    public void getMessage(ArrayList<Profile> profiles) {
     }
 
     @OnClick(R.id.button_searchEvent)
