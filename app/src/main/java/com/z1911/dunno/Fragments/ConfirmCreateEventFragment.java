@@ -32,12 +32,12 @@ public class ConfirmCreateEventFragment extends BaseFragment {
     @OnClick(R.id.button_create_event_confirmation)
     public void createEventPressEvent() {
 
-        mIFragmentCommunicationManager.showSnackBar("The event has been created successfully", "Ok", Snackbar.LENGTH_LONG, new View.OnClickListener() {
+        mCommunicationDelegate.showSnackBar("The event has been created successfully", "Ok", Snackbar.LENGTH_LONG, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
-        mIFragmentCommunicationManager.changeTo(new MainPageFragment(), true);
+        mCommunicationDelegate.changeTo(new MainPageFragment(), true);
 
 
     }

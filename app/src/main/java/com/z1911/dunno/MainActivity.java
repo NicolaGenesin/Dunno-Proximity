@@ -9,11 +9,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 
 import com.f2prateek.dart.Dart;
 import com.facebook.appevents.AppEventsLogger;
@@ -24,26 +26,29 @@ import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Event;
-import com.z1911.dunno.Fragments.CreateEventFragment;
+import com.z1911.dunno.Fragments.CreateEventDescriptionFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
-import com.z1911.dunno.Interfaces.IApplicationDataHolder;
-import com.z1911.dunno.Interfaces.IFacebookHolder;
-import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
+import com.z1911.dunno.Interfaces.ICommunication;
 import com.z1911.dunno.Listeners.OnFacebookEventListener;
 import com.z1911.dunno.Listeners.OnFacebookFriendsListener;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
 import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
+import com.z1911.dunno.Util.Ui;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements IApplicationDataHolder, IFragmentCommunicationManager, IFacebookHolder {
+public class MainActivity extends AppCompatActivity implements ICommunication {
 
     @Bind(R.id.button_add_event)
     FloatingActionButton mFab;
+    @Bind(R.id.tool_bar)
+    Toolbar mToolBar;
     @Bind(R.id.coordinator_container)
     android.support.design.widget.CoordinatorLayout mCoordinatorLayout;
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -64,14 +69,29 @@ public class MainActivity extends AppCompatActivity implements IApplicationDataH
         ButterKnife.bind(this);
 
         mApplicationData = new ApplicationData();
-        setUpBus(this);
+        setUpBus();
         setUpFacebook();
+        setUpToolBar();
+        setUpFont();
         setUpFirstFragment();
     }
 
-    private void setUpBus(Context context) {
+    public void setUpToolBar(){
+        setSupportActionBar(mToolBar);
+        mToolBar.setTitle("PrismEvents");
+    }
+
+    private void setUpBus() {
         mBus = new Bus(ThreadEnforcer.MAIN);
         mBus.register(this);
+    }
+
+    private void setUpFont() {
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/bold.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
     }
 
     public void setUpFirstFragment() {
@@ -162,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements IApplicationDataH
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @OnClick(R.id.button_add_event)
     public void createEventPressEvent() {
         int duration = 100;
@@ -175,9 +200,9 @@ public class MainActivity extends AppCompatActivity implements IApplicationDataH
             public void run() {
                 mFab.setVisibility(View.GONE);
             }
-        },duration);
+        }, duration);
 
-        this.changeTo(new CreateEventFragment());
+        this.changeTo(new CreateEventDescriptionFragment());
     }
 
 
@@ -188,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements IApplicationDataH
 
     @Override
     public void checkRestoreFab() {
-        if (mFab.getVisibility() == View.GONE){
+        if (mFab.getVisibility() == View.GONE) {
             mFab.setVisibility(View.VISIBLE);
             int duration = 100;
             Animation fadeIn = new AlphaAnimation(0, 1);
@@ -218,12 +243,17 @@ public class MainActivity extends AppCompatActivity implements IApplicationDataH
     }
 
     @Override
-    public void showSnackBar(String bodyText, String buttonText, int time, View.OnClickListener listener){
+    public void showSnackBar(String bodyText, String buttonText, int time, View.OnClickListener listener) {
         Snackbar
                 .make(mCoordinatorLayout, bodyText, time)
                 .setAction(buttonText, listener)
                 .setDuration(Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    @Override
+    public void hideKeyboard() {
+        Ui.hideKeyboard(this.getCurrentFocus(), (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE));
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.z1911.dunno.Interfaces.IApplicationDataHolder;
+import com.z1911.dunno.Interfaces.ICommunication;
 import com.z1911.dunno.Interfaces.IFacebookHolder;
 import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
 import com.z1911.dunno.MainActivity;
@@ -13,18 +14,14 @@ import com.z1911.dunno.MainActivity;
  */
 public class BaseFragment extends Fragment {
 
-    protected IApplicationDataHolder mIApplicationDataHolder;
-    protected IFragmentCommunicationManager mIFragmentCommunicationManager;
-    protected IFacebookHolder mIFacebookHolder;
+    protected ICommunication mCommunicationDelegate;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             ((MainActivity) activity).getBus().register(this);
-            mIFacebookHolder = (IFacebookHolder) activity;
-            mIFragmentCommunicationManager = (IFragmentCommunicationManager) activity;
-            mIApplicationDataHolder = (IApplicationDataHolder) activity;
+            mCommunicationDelegate = (ICommunication) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement IFragmentCommunicationManager&&IApplicationDataHolder&&IFacebookHolder");
         }
@@ -34,9 +31,7 @@ public class BaseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         ((MainActivity) getActivity()).getBus().unregister(this);
-        mIFacebookHolder = null;
-        mIFragmentCommunicationManager = null;
-        mIApplicationDataHolder = null;
+        mCommunicationDelegate = null;
     }
 
 }

@@ -44,8 +44,9 @@ public class FriendsSelectorFragment extends BaseFragment {
 
         mAdapter = new ArrayAdapter<Profile>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, mTestList);
 
-        if (getActivity() instanceof IFacebookHolder)
-            mIFacebookHolder.getFriends(this.getClass().toString());
+        if (getActivity() instanceof IFacebookHolder){
+            mCommunicationDelegate.getFriends(this.getClass().toString());
+        }
 
         return view;
     }

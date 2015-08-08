@@ -26,7 +26,7 @@ public class MainPageFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         //checks if we need to restore the fab
-        mIFragmentCommunicationManager.checkRestoreFab();
+        mCommunicationDelegate.checkRestoreFab();
 
         return view;
     }
@@ -37,12 +37,12 @@ public class MainPageFragment extends BaseFragment {
 
     @OnClick(R.id.button_searchEvent)
     public void searchPressEvent() {
-        mIFragmentCommunicationManager.changeTo(new SearchEventFragment());
+        mCommunicationDelegate.changeTo(new SearchEventFragment());
     }
 
     @OnClick(R.id.button_collection)
     public void collectPressEvent() {
-        mIFragmentCommunicationManager.changeTo(new CollectionFragment());
+        mCommunicationDelegate.changeTo(new CollectionFragment());
     }
 
 }

@@ -10,7 +10,16 @@
     android:background="@color/darkbluevulcan"
     tools:context=".MapActivity">
 
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="@color/lightgreenvulcan" />
+
     <RelativeLayout
+        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_weight="2"
         android:id="@+id/container"
         android:layout_width="match_parent"

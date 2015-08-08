@@ -26,6 +26,6 @@ public class FacebookFragment extends BaseFragment {
 
     @OnClick(R.id.button_facebook_login)
     public void doFacebookLogin(){
-        mIFacebookHolder.login();
+        mCommunicationDelegate.login();
     }
 }

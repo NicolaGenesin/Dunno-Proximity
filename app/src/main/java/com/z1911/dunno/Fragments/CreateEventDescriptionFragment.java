@@ -15,7 +15,7 @@ import butterknife.OnClick;
 /**
  * Created by nicola on 03/08/2015.
  */
-public class CreateEventFragment extends BaseFragment {
+public class CreateEventDescriptionFragment extends BaseFragment {
     @Bind(R.id.text_eventName)
     TextView mTextEventName;
     @Bind(R.id.text_eventDate)
@@ -40,8 +40,11 @@ public class CreateEventFragment extends BaseFragment {
         String type = mTextEventType.getText().toString();
         String date = mTextEventDate.getText().toString();
 
-        if (!name.isEmpty() && !type.isEmpty() && !date.isEmpty()) {
-            mIFragmentCommunicationManager.changeTo(new PreviewMedalFragment());
+        //if (!name.isEmpty() && !type.isEmpty() && !date.isEmpty()) {
+        if (true) {
+            mCommunicationDelegate.changeTo(new PreviewMedalFragment());
         }
+
+        mCommunicationDelegate.hideKeyboard();
     }
 }

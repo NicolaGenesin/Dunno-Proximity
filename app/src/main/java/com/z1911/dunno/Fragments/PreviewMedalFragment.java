@@ -31,6 +31,6 @@ public class PreviewMedalFragment extends BaseFragment {
 
     @OnClick(R.id.button_acceptMedal)
     public void acceptMedalPressEvent() {
-        mIFragmentCommunicationManager.changeTo(new CreateEventMapsFragment());
+        mCommunicationDelegate.changeTo(new CreateEventMapsFragment());
     }
 }
