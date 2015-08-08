@@ -13,4 +13,6 @@ public interface IFragmentCommunicationManager {
     void changeTo(Fragment fragment, boolean clearFragmentManagerBackStack);
     void showSnackBar(String bodyText, String buttonText, int time, View.OnClickListener listener);
     void hideKeyboard();
+    void showDatePicker();
+    void showTimePicker();
 }

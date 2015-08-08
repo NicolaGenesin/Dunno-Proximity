@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -26,6 +27,7 @@ import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Event;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.z1911.dunno.Fragments.CreateEventDescriptionFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
@@ -36,6 +38,8 @@ import com.z1911.dunno.Listeners.OnFacebookLoginListener;
 import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
 import com.z1911.dunno.Util.Ui;
+
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -137,6 +141,13 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
         return SimpleFacebook.getInstance(this);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
     @Override
     protected void onResume() {
@@ -254,6 +265,28 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     @Override
     public void hideKeyboard() {
         Ui.hideKeyboard(this.getCurrentFocus(), (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE));
+    }
+
+    @Override
+    public void showDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog datePickerDialog, int i, int i1, int i2) {
+
+                    }
+                },
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        dpd.show(getFragmentManager(),"fdsfdsfsdffsd");
+    }
+
+    @Override
+    public void showTimePicker() {
+
     }
 
     @Override

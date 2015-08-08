@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.z1911.dunno.R;
+
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,21 +20,36 @@ import butterknife.OnClick;
  */
 public class CreateEventDescriptionFragment extends BaseFragment {
     @Bind(R.id.text_eventName)
-    TextView mTextEventName;
+    EditText mTextEventName;
     @Bind(R.id.text_eventDate)
-    TextView mTextEventDate;
+    EditText mTextEventDate;
     @Bind(R.id.text_eventType)
-    TextView mTextEventType;
+    EditText mTextEventType;
+    @Bind(R.id.label_eventDate)
+    android.support.design.widget.TextInputLayout mLabelEventDate;
     @Bind(R.id.button_createEventMedal)
-    TextView mButtonEventMedal;
+    Button mButtonEventMedal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_description_event, container, false);
         ButterKnife.bind(this, view);
 
+        mTextEventDate.setText(Calendar.getInstance().getTime().toString());
+
         return view;
+    }
+
+    @OnClick(R.id.text_eventDate)
+    public void setDate() {
+        mCommunicationDelegate.showDatePicker();
+    }
+
+    @OnClick(R.id.label_eventDate)
+    public void setDate2() {
+        //todo remove
+        mCommunicationDelegate.showDatePicker();
     }
 
     @OnClick(R.id.button_createEventMedal)
