@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.z1911.dunno.Listeners.OnFacebookLoginListener;
-import com.z1911.dunno.MainActivity;
 import com.z1911.dunno.R;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,6 +26,6 @@ public class FacebookFragment extends BaseFragment {
 
     @OnClick(R.id.button_facebook_login)
     public void doFacebookLogin(){
-        mFacebookHolder.login();
+        mIFacebookHolder.login();
     }
 }

@@ -11,5 +11,5 @@ public interface IFragmentCommunicationManager {
     void checkRestoreFab();
     void changeTo(Fragment fragment);
     void changeTo(Fragment fragment, boolean clearFragmentManagerBackStack);
-    void showSnackBar(String bodyText, String buttonText, int lengthLong, View.OnClickListener listener);
+    void showSnackBar(String bodyText, String buttonText, int time, View.OnClickListener listener);
 }

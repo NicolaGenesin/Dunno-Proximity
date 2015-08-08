@@ -27,8 +27,8 @@ import com.sromku.simple.fb.entities.Event;
 import com.z1911.dunno.Fragments.CreateEventFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
-import com.z1911.dunno.Interfaces.ApplicationDataHolder;
-import com.z1911.dunno.Interfaces.FacebookHolder;
+import com.z1911.dunno.Interfaces.IApplicationDataHolder;
+import com.z1911.dunno.Interfaces.IFacebookHolder;
 import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
 import com.z1911.dunno.Listeners.OnFacebookEventListener;
 import com.z1911.dunno.Listeners.OnFacebookFriendsListener;
@@ -40,10 +40,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements ApplicationDataHolder, IFragmentCommunicationManager, FacebookHolder {
+public class MainActivity extends AppCompatActivity implements IApplicationDataHolder, IFragmentCommunicationManager, IFacebookHolder {
 
     @Bind(R.id.button_add_event)
     FloatingActionButton mFab;
+    @Bind(R.id.coordinator_container)
+    android.support.design.widget.CoordinatorLayout mCoordinatorLayout;
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private SimpleFacebook mSimpleFacebook;
     private ApplicationData mApplicationData;
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
 
     @OnClick(R.id.button_add_event)
     public void createEventPressEvent() {
-        int duration = 300;
+        int duration = 100;
         Animation fadeOut = new AlphaAnimation(1, 0);
         fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
         fadeOut.setDuration(duration);
@@ -188,9 +190,9 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
     public void checkRestoreFab() {
         if (mFab.getVisibility() == View.GONE){
             mFab.setVisibility(View.VISIBLE);
-            int duration = 300;
+            int duration = 100;
             Animation fadeIn = new AlphaAnimation(0, 1);
-            fadeIn.setInterpolator(new AccelerateInterpolator()); //and this
+            fadeIn.setInterpolator(new AccelerateInterpolator());
             fadeIn.setDuration(duration);
             mFab.startAnimation(fadeIn);
         }
@@ -216,9 +218,9 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
     }
 
     @Override
-    public void showSnackBar(String bodyText, String buttonText, int lengthLong, View.OnClickListener listener){
+    public void showSnackBar(String bodyText, String buttonText, int time, View.OnClickListener listener){
         Snackbar
-                .make(this.findViewById(R.id.container), bodyText, Snackbar.LENGTH_LONG)
+                .make(mCoordinatorLayout, bodyText, time)
                 .setAction(buttonText, listener)
                 .setDuration(Snackbar.LENGTH_LONG)
                 .show();

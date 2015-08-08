@@ -3,8 +3,8 @@ package com.z1911.dunno.Fragments;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.z1911.dunno.Interfaces.ApplicationDataHolder;
-import com.z1911.dunno.Interfaces.FacebookHolder;
+import com.z1911.dunno.Interfaces.IApplicationDataHolder;
+import com.z1911.dunno.Interfaces.IFacebookHolder;
 import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
 import com.z1911.dunno.MainActivity;
 
@@ -13,20 +13,20 @@ import com.z1911.dunno.MainActivity;
  */
 public class BaseFragment extends Fragment {
 
-    protected ApplicationDataHolder mApplicationDataHolder;
+    protected IApplicationDataHolder mIApplicationDataHolder;
     protected IFragmentCommunicationManager mIFragmentCommunicationManager;
-    protected FacebookHolder mFacebookHolder;
+    protected IFacebookHolder mIFacebookHolder;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             ((MainActivity) activity).getBus().register(this);
-            mFacebookHolder = (FacebookHolder) activity;
+            mIFacebookHolder = (IFacebookHolder) activity;
             mIFragmentCommunicationManager = (IFragmentCommunicationManager) activity;
-            mApplicationDataHolder = (ApplicationDataHolder) activity;
+            mIApplicationDataHolder = (IApplicationDataHolder) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement IFragmentCommunicationManager&&ApplicationDataHolder&&FacebookHolder");
+            throw new ClassCastException(activity.toString() + " must implement IFragmentCommunicationManager&&IApplicationDataHolder&&IFacebookHolder");
         }
     }
 
@@ -34,9 +34,9 @@ public class BaseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         ((MainActivity) getActivity()).getBus().unregister(this);
-        mFacebookHolder = null;
+        mIFacebookHolder = null;
         mIFragmentCommunicationManager = null;
-        mApplicationDataHolder = null;
+        mIApplicationDataHolder = null;
     }
 
 }
