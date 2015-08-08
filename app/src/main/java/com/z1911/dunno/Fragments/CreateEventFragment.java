@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.z1911.dunno.Interfaces.FragmentHolder;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -42,7 +41,7 @@ public class CreateEventFragment extends BaseFragment {
         String date = mTextEventDate.getText().toString();
 
         if (!name.isEmpty() && !type.isEmpty() && !date.isEmpty()) {
-            mFragmentHolder.onChange(new PreviewMedalFragment());
+            mIFragmentCommunicationManager.changeTo(new PreviewMedalFragment());
         }
     }
 }

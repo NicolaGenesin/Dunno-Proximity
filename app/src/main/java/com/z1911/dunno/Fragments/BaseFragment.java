@@ -2,15 +2,11 @@ package com.z1911.dunno.Fragments;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 import com.z1911.dunno.Interfaces.FacebookHolder;
-import com.z1911.dunno.Interfaces.FragmentHolder;
+import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
 import com.z1911.dunno.MainActivity;
-import com.z1911.dunno.Models.ApplicationData;
 
 /**
  * Created by nicola on 21/07/2015.
@@ -18,7 +14,7 @@ import com.z1911.dunno.Models.ApplicationData;
 public class BaseFragment extends Fragment {
 
     protected ApplicationDataHolder mApplicationDataHolder;
-    protected FragmentHolder mFragmentHolder;
+    protected IFragmentCommunicationManager mIFragmentCommunicationManager;
     protected FacebookHolder mFacebookHolder;
 
     @Override
@@ -27,10 +23,10 @@ public class BaseFragment extends Fragment {
         try {
             ((MainActivity) activity).getBus().register(this);
             mFacebookHolder = (FacebookHolder) activity;
-            mFragmentHolder = (FragmentHolder) activity;
+            mIFragmentCommunicationManager = (IFragmentCommunicationManager) activity;
             mApplicationDataHolder = (ApplicationDataHolder) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement FragmentHolder&&ApplicationDataHolder&&FacebookHolder");
+            throw new ClassCastException(activity.toString() + " must implement IFragmentCommunicationManager&&ApplicationDataHolder&&FacebookHolder");
         }
     }
 
@@ -39,7 +35,7 @@ public class BaseFragment extends Fragment {
         super.onDetach();
         ((MainActivity) getActivity()).getBus().unregister(this);
         mFacebookHolder = null;
-        mFragmentHolder = null;
+        mIFragmentCommunicationManager = null;
         mApplicationDataHolder = null;
     }
 

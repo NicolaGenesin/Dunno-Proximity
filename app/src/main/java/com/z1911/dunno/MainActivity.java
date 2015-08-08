@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.f2prateek.dart.Dart;
 import com.facebook.appevents.AppEventsLogger;
@@ -19,27 +24,26 @@ import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Event;
-import com.sromku.simple.fb.entities.Profile;
-import com.sromku.simple.fb.listeners.OnFriendsListener;
 import com.z1911.dunno.Fragments.CreateEventFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
 import com.z1911.dunno.Interfaces.ApplicationDataHolder;
 import com.z1911.dunno.Interfaces.FacebookHolder;
-import com.z1911.dunno.Interfaces.FragmentHolder;
+import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
 import com.z1911.dunno.Listeners.OnFacebookEventListener;
 import com.z1911.dunno.Listeners.OnFacebookFriendsListener;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
 import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
 
-import java.util.List;
-
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements ApplicationDataHolder, FragmentHolder, FacebookHolder {
+public class MainActivity extends AppCompatActivity implements ApplicationDataHolder, IFragmentCommunicationManager, FacebookHolder {
 
+    @Bind(R.id.button_add_event)
+    FloatingActionButton mFab;
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private SimpleFacebook mSimpleFacebook;
     private ApplicationData mApplicationData;
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
                 } else {
                     fragment = new FacebookFragment();
                 }
-                MainActivity.this.onChange(fragment);
+                MainActivity.this.changeTo(fragment);
             }
         }, 2000);
     }
@@ -133,11 +137,11 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
         int keyCode = event.getKeyCode();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_DOWN: {
-                mSimpleFacebook.logout(new OnFacebookLogoutListener());
+                mSimpleFacebook.logout(new OnFacebookLogoutListener(mBus));
                 break;
             }
             case KeyEvent.KEYCODE_VOLUME_UP: {
-                mSimpleFacebook.login(new OnFacebookLoginListener());
+                mSimpleFacebook.login(new OnFacebookLoginListener(mBus));
                 break;
             }
             default:
@@ -158,7 +162,20 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
 
     @OnClick(R.id.button_add_event)
     public void createEventPressEvent() {
-        this.onChange(new CreateEventFragment());
+        int duration = 300;
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+        fadeOut.setDuration(duration);
+        mFab.startAnimation(fadeOut);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mFab.setVisibility(View.GONE);
+            }
+        },duration);
+
+        this.changeTo(new CreateEventFragment());
     }
 
 
@@ -168,62 +185,63 @@ public class MainActivity extends AppCompatActivity implements ApplicationDataHo
     }
 
     @Override
-    public void onChange(Fragment fragment) {
-        FragmentManager fm = this.getSupportFragmentManager();
+    public void checkRestoreFab() {
+        if (mFab.getVisibility() == View.GONE){
+            mFab.setVisibility(View.VISIBLE);
+            int duration = 300;
+            Animation fadeIn = new AlphaAnimation(0, 1);
+            fadeIn.setInterpolator(new AccelerateInterpolator()); //and this
+            fadeIn.setDuration(duration);
+            mFab.startAnimation(fadeIn);
+        }
+    }
+
+    @Override
+    public void changeTo(Fragment fragment) {
+        android.support.v4.app.FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out);
         ft.replace(R.id.container, fragment).addToBackStack(fragment.getClass().toString()).commit();
     }
 
     @Override
-    public void onChange(Fragment fragment, boolean clearFragmentManagerBackStack) {
+    public void changeTo(Fragment fragment, boolean clearFragmentManagerBackStack) {
         if (clearFragmentManagerBackStack) {
-            FragmentManager fm = this.getSupportFragmentManager();
+            android.support.v4.app.FragmentManager fm = this.getSupportFragmentManager();
             while (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStackImmediate();
             }
         }
-        onChange(fragment);
+        changeTo(fragment);
+    }
+
+    @Override
+    public void showSnackBar(String bodyText, String buttonText, int lengthLong, View.OnClickListener listener){
+        Snackbar
+                .make(this.findViewById(R.id.container), bodyText, Snackbar.LENGTH_LONG)
+                .setAction(buttonText, listener)
+                .setDuration(Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override
     public void getFriends(String FragmentName) {
-//        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentName);
-//        if (fragment instanceof FriendsSelectorFragment){
-//            final FriendsSelectorFragment castedFragment = ((FriendsSelectorFragment)fragment);
-//            mSimpleFacebook.getFriends(new OnFriendsListener() {
-//                @Override
-//                public void onComplete(List<Profile> response) {
-//                    super.onComplete(response);
-//                    castedFragment.setTestList(response);
-//                    castedFragment.getAdapter().notifyDataSetChanged();
-//                }
-//            });
-//        }
-
-//        mSimpleFacebook.getFriends(new OnFriendsListener() {
-//            @Override
-//            public void onComplete(List<Profile> response) {
-//                super.onComplete(response);
-//                getBus().post(response);
-//            }
-//        });
-
         mSimpleFacebook.getFriends(new OnFacebookFriendsListener(mBus));
     }
 
     @Override
     public void getEvents() {
-        mSimpleFacebook.getEvents(Event.EventDecision.ATTENDING, new OnFacebookEventListener());
+        mSimpleFacebook.getEvents(Event.EventDecision.ATTENDING, new OnFacebookEventListener(mBus));
     }
 
     @Override
     public void login() {
-        mSimpleFacebook.login(new OnFacebookLoginListener());
+        mSimpleFacebook.login(new OnFacebookLoginListener(mBus));
     }
 
     @Override
     public void logout() {
-        mSimpleFacebook.logout(new OnFacebookLogoutListener());
+        mSimpleFacebook.logout(new OnFacebookLogoutListener(mBus));
     }
 
 

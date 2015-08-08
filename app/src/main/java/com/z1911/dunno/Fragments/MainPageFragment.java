@@ -7,12 +7,9 @@ import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 import com.sromku.simple.fb.entities.Profile;
-import com.z1911.dunno.Interfaces.FacebookHolder;
-import com.z1911.dunno.MainActivity;
 import com.z1911.dunno.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,8 +25,8 @@ public class MainPageFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
         ButterKnife.bind(this, view);
 
-        if (getActivity() instanceof FacebookHolder)
-            mFacebookHolder.getFriends(this.getClass().toString());
+        //checks if we need to restore the fab
+        mIFragmentCommunicationManager.checkRestoreFab();
 
         return view;
     }
@@ -40,12 +37,12 @@ public class MainPageFragment extends BaseFragment {
 
     @OnClick(R.id.button_searchEvent)
     public void searchPressEvent() {
-        mFragmentHolder.onChange(new SearchEventFragment());
+        mIFragmentCommunicationManager.changeTo(new SearchEventFragment());
     }
 
     @OnClick(R.id.button_collection)
     public void collectPressEvent() {
-        mFragmentHolder.onChange(new CollectionFragment());
+        mIFragmentCommunicationManager.changeTo(new CollectionFragment());
     }
 
 }

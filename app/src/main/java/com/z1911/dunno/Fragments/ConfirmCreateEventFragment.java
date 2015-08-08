@@ -1,12 +1,12 @@
 package com.z1911.dunno.Fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.z1911.dunno.Interfaces.FragmentHolder;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -31,7 +31,15 @@ public class ConfirmCreateEventFragment extends BaseFragment {
 
     @OnClick(R.id.button_create_event_confirmation)
     public void createEventPressEvent() {
-        mFragmentHolder.onChange(new MainPageFragment(),true);
+
+        mIFragmentCommunicationManager.showSnackBar("The event has been created successfully", "Ok", Snackbar.LENGTH_LONG, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        mIFragmentCommunicationManager.changeTo(new MainPageFragment(), true);
+
+
     }
 
     @Override

@@ -32,6 +32,4 @@ public class FacebookFragment extends BaseFragment {
     public void doFacebookLogin(){
         mFacebookHolder.login();
     }
-
-
 }

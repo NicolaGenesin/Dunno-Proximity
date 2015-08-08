@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.z1911.dunno.Interfaces.FragmentHolder;
+import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
 import com.z1911.dunno.R;
 
 import butterknife.Bind;
@@ -32,6 +32,6 @@ public class CreateEventMapsFragment extends BaseFragment {
 
     @OnClick(R.id.button_acceptMap)
     public void acceptMapPressEvent() {
-        ((FragmentHolder) getActivity()).onChange(new ConfirmCreateEventFragment());
+        ((IFragmentCommunicationManager) getActivity()).changeTo(new ConfirmCreateEventFragment());
     }
 }
