@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
         setUpFirstFragment();
     }
 
-    public void setUpToolBar(){
+    public void setUpToolBar() {
         setSupportActionBar(mToolBar);
         mToolBar.setTitle("PrismEvents");
     }
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
-        dpd.show(getFragmentManager(),"fdsfdsfsdffsd");
+        dpd.show(getFragmentManager(), "fdsfdsfsdffsd");
     }
 
     @Override
