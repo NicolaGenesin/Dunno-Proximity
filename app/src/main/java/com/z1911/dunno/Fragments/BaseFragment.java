@@ -23,7 +23,7 @@ public class BaseFragment extends Fragment {
             ((MainActivity) activity).getBus().register(this);
             mCommunicationDelegate = (ICommunication) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement IFragmentCommunicationManager&&IApplicationDataHolder&&IFacebookHolder");
+            throw new ClassCastException(activity.toString() + " must implement ICommunication");
         }
     }
 

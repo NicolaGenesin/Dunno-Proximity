@@ -1,6 +1,5 @@
 package com.z1911.dunno.Interfaces;
 
-import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -9,10 +8,16 @@ import android.view.View;
  */
 public interface IFragmentCommunicationManager {
     void checkRestoreFab();
+
     void changeTo(Fragment fragment);
+
     void changeTo(Fragment fragment, boolean clearFragmentManagerBackStack);
+
     void showSnackBar(String bodyText, String buttonText, int time, View.OnClickListener listener);
+
     void hideKeyboard();
+
     void showDatePicker();
+
     void showTimePicker();
 }
