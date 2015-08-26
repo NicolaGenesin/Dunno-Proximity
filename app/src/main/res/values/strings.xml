@@ -3,4 +3,7 @@
     <string name="title_activity">Events</string>
     <string name="proceed">Proceed</string>
     <string name="action_settings">settings</string>
+    <string name="dialog_action_ok">ok</string>
+    <string name="dialog_error_title">An error occurred</string>
+    <string name="dialog_general_error_Message">damn</string>
 </resources>

@@ -13,11 +13,27 @@ import android.provider.Settings;
 
 import java.lang.reflect.Field;
 
+import retrofit.RetrofitError;
+
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
 public class Network {
+
+    /**
+     * Returns true if the Throwable is an instance of RetrofitError with an
+     * http status code equals to the given one.
+     */
+    public static boolean isHttpStatusCode(Throwable throwable, int statusCode) {
+        if (RetrofitError.class.isInstance(throwable)) {
+            RetrofitError retrofitError = (RetrofitError) throwable;
+            if (retrofitError.getResponse() != null) {
+                return retrofitError.getResponse().getStatus() == statusCode;
+            }
+        }
+        return false;
+    }
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
