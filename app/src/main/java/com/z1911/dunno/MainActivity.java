@@ -18,9 +18,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 
-import com.f2prateek.dart.Dart;
 import com.facebook.appevents.AppEventsLogger;
-import com.github.mmin18.layoutcast.LayoutCast;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -70,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Dart.inject(this);
         ButterKnife.bind(this);
-        LayoutCast.init(this);
 
         mApplicationData = new ApplicationData();
         setUpBus();
