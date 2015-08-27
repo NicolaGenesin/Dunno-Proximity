@@ -3,11 +3,8 @@ package com.z1911.dunno.Fragments;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.z1911.dunno.Interfaces.IApplicationDataHolder;
 import com.z1911.dunno.Interfaces.ICommunication;
-import com.z1911.dunno.Interfaces.IFacebookHolder;
-import com.z1911.dunno.Interfaces.IFragmentCommunicationManager;
-import com.z1911.dunno.MainActivity;
+import com.z1911.dunno.Activities.MainActivity;
 
 /**
  * Created by nicola on 21/07/2015.

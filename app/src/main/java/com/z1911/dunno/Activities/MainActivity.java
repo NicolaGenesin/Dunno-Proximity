@@ -1,4 +1,4 @@
-package com.z1911.dunno;
+package com.z1911.dunno.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +27,7 @@ import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Event;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.z1911.dunno.EventApplication;
 import com.z1911.dunno.Fragments.CreateEventDescriptionFragment;
 import com.z1911.dunno.Fragments.FacebookFragment;
 import com.z1911.dunno.Fragments.MainPageFragment;
@@ -36,9 +37,12 @@ import com.z1911.dunno.Listeners.OnFacebookFriendsListener;
 import com.z1911.dunno.Listeners.OnFacebookLoginListener;
 import com.z1911.dunno.Listeners.OnFacebookLogoutListener;
 import com.z1911.dunno.Models.ApplicationData;
+import com.z1911.dunno.R;
 import com.z1911.dunno.Util.Ui;
 
 import java.util.Calendar;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     @Bind(R.id.coordinator_container)
     android.support.design.widget.CoordinatorLayout mCoordinatorLayout;
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private SimpleFacebook mSimpleFacebook;
+    @Inject
+    SimpleFacebook mSimpleFacebook;
     private ApplicationData mApplicationData;
     private Bus mBus;
 
@@ -68,11 +73,17 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //injector
+        try {
+            ((EventApplication) getApplication()).getFacebookClientComponent(this).inject(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ButterKnife.bind(this);
 
         mApplicationData = new ApplicationData();
         setUpBus();
-        setUpFacebook();
         setUpToolBar();
         setUpFont();
         setUpFirstFragment();
@@ -117,29 +128,6 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void setUpFacebook() {
-        Permission[] permissions = new Permission[]{
-                Permission.USER_PHOTOS,
-                Permission.EMAIL,
-                Permission.PUBLISH_ACTION
-        };
-        SimpleFacebookConfiguration configuration = new SimpleFacebookConfiguration.Builder()
-                .setAppId(getString(R.string.facebook_app_id))
-                .setNamespace(getApplicationContext().getPackageName())
-                .setPermissions(permissions)
-                .build();
-
-        SimpleFacebook.setConfiguration(configuration);
-        mSimpleFacebook = GetFacebookInstance();
-    }
-
-    public SimpleFacebook GetFacebookInstance() {
-        if (mSimpleFacebook == null)
-            mSimpleFacebook = SimpleFacebook.getInstance(this);
-        return SimpleFacebook.getInstance(this);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -150,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     @Override
     protected void onResume() {
         super.onResume();
-        mSimpleFacebook = GetFacebookInstance();
         //setUpMapIfNeeded();
         AppEventsLogger.activateApp(this);
     }
