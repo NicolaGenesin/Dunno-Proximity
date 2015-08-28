@@ -1,7 +1,8 @@
 package com.z1911.dunno.Transformations;
 
 /**
- * Created by nicola on 27/07/2015.
+ * Created by Nicola Genesin on 27/07/2015.
+ * Copyright (C) 2015 1911.
  */
 
 import android.graphics.Bitmap;

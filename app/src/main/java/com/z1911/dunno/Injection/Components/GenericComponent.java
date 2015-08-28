@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
- * Created by NicolaWin on 27/08/2015.
+ * Created by Nicola Genesin on 27/08/2015.
+ * Copyright (C) 2015 1911.
  */
 @Singleton
 @Component(modules = {FacebookModule.class,BusModule.class})

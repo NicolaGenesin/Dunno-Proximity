@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import com.z1911.dunno.R;
 
 /**
- * Created by nicola on 08/08/2015.
+ * Created by Nicola Genesin on 08/08/2015.
+ * Copyright (C) 2015 1911.
  */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;

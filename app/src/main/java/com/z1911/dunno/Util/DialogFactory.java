@@ -1,7 +1,8 @@
 package com.z1911.dunno.Util;
 
 /**
- * Created by NicolaWin on 26/08/2015.
+ * Created by Nicola Genesin on 07/07/2015.
+ * Copyright (C) 2015 1911.
  */
 
 import android.app.Dialog;

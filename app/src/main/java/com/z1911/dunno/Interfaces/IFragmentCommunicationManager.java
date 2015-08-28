@@ -4,7 +4,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 /**
- * Created by nicola on 06/08/2015.
+ * Created by Nicola Genesin on 06/08/2015.
+ * Copyright (C) 2015 1911.
  */
 public interface IFragmentCommunicationManager {
     void checkRestoreFab();

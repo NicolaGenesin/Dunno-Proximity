@@ -6,7 +6,8 @@ import com.squareup.otto.Bus;
 import com.sromku.simple.fb.listeners.OnLogoutListener;
 
 /**
- * Created by nicola on 03/08/2015.
+ * Created by Nicola Genesin on 03/08/2015.
+ * Copyright (C) 2015 1911.
  */
 public class OnFacebookLogoutListener implements OnLogoutListener {
     Bus bus;

@@ -1,5 +1,10 @@
 package com.z1911.dunno.Activities;
 
+/**
+ * Created by Nicola Genesin on 07/07/2015.
+ * Copyright (C) 2015 1911.
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,13 +23,9 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 
-import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.otto.Bus;
-import com.squareup.otto.ThreadEnforcer;
-import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Event;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.z1911.dunno.EventApplication;
@@ -47,7 +48,6 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements ICommunication {
@@ -58,34 +58,30 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     Toolbar mToolBar;
     @Bind(R.id.coordinator_container)
     android.support.design.widget.CoordinatorLayout mCoordinatorLayout;
-    //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     @Inject
     SimpleFacebook mSimpleFacebook;
-    private ApplicationData mApplicationData;
-    private Bus mBus;
+    @Inject
+    Bus mBus;
 
-    public Bus getBus() {
-        return mBus;
-    }
+    //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private ApplicationData mApplicationData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //injector
+        //bind modules
         try {
-            ((EventApplication) getApplication()).getFacebookClientComponent(this).inject(this);
+            ((EventApplication) getApplication()).getComponents(this).inject(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         ButterKnife.bind(this);
 
-        mApplicationData = new ApplicationData();
         setUpBus();
         setUpToolBar();
-        setUpFont();
         setUpFirstFragment();
     }
 
@@ -95,16 +91,7 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     }
 
     private void setUpBus() {
-        mBus = new Bus(ThreadEnforcer.MAIN);
         mBus.register(this);
-    }
-
-    private void setUpFont() {
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/bold.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
     }
 
     public void setUpFirstFragment() {
@@ -130,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -139,14 +125,13 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     protected void onResume() {
         super.onResume();
         //setUpMapIfNeeded();
-        AppEventsLogger.activateApp(this);
+        //AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
+        //AppEventsLogger.deactivateApp(this);
     }
 
 
@@ -295,6 +280,9 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     }
 
 
+    public Bus getBus() {
+        return mBus;
+    }
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever

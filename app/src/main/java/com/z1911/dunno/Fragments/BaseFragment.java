@@ -7,7 +7,8 @@ import com.z1911.dunno.Interfaces.ICommunication;
 import com.z1911.dunno.Activities.MainActivity;
 
 /**
- * Created by nicola on 21/07/2015.
+ * Created by Nicola Genesin on 21/07/2015.
+ * Copyright (C) 2015 1911.
  */
 public class BaseFragment extends Fragment {
 

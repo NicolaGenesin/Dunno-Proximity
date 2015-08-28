@@ -10,16 +10,18 @@ import com.z1911.dunno.Injection.Modules.FacebookModule;
 
 import javax.annotation.Nonnull;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by NicolaWin on 27/08/2015.
  */
 public class EventApplication extends Application {
-    private static GenericComponent facebookClientComponent;
+    private static GenericComponent components;
 
-    public static GenericComponent getFacebookClientComponent(@Nonnull MainActivity target) throws Exception {
-        if (facebookClientComponent == null) {
+    public static GenericComponent getComponents(@Nonnull MainActivity target) throws Exception {
+        if (components == null) {
             if (target instanceof MainActivity) {
-                facebookClientComponent = DaggerGenericComponent
+                components = DaggerGenericComponent
                         .builder()
                         .facebookModule(new FacebookModule(target))
                         .busModule(new BusModule())
@@ -28,11 +30,20 @@ public class EventApplication extends Application {
                 throw new Exception("invalid activity injection instance");
             }
         }
-        return facebookClientComponent;
+        return components;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        setUpFont();
+    }
+
+    private void setUpFont() {
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/bold.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
     }
 }

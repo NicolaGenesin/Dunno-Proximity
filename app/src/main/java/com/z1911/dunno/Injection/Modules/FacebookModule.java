@@ -13,7 +13,8 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by NicolaWin on 27/08/2015.
+ * Created by Nicola Genesin on 27/08/2015.
+ * Copyright (C) 2015 1911.
  */
 @Module
 public class FacebookModule {

@@ -9,7 +9,8 @@ import com.sromku.simple.fb.listeners.OnLoginListener;
 import java.util.List;
 
 /**
- * Created by nicola on 20/07/2015.
+ * Created by Nicola Genesin on 20/07/2015.
+ * Copyright (C) 2015 1911.
  */
 public class OnFacebookLoginListener implements OnLoginListener {
     Bus bus;

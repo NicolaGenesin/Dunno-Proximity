@@ -5,7 +5,8 @@ import android.location.Location;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Created by nicola on 15/07/2015.
+ * Created by Nicola Genesin on 15/07/2015.
+ * Copyright (C) 2015 1911.
  */
 public class RangeLocation extends Location {
 

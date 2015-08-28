@@ -17,7 +17,8 @@ import java.util.List;
 
 
 /**
- * Created by nicola on 27/07/2015.
+ * Created by Nicola Genesin on 27/07/2015.
+ * Copyright (C) 2015 1911.
  */
 public class FacebookFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Profile> itemsData;

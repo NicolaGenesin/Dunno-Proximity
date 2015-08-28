@@ -9,7 +9,8 @@ import com.sromku.simple.fb.listeners.OnEventsListener;
 import java.util.List;
 
 /**
- * Created by nicola on 06/08/2015.
+ * Created by Nicola Genesin on 06/08/2015.
+ * Copyright (C) 2015 1911.
  */
 public class OnFacebookEventListener extends OnEventsListener {
     Bus bus;
