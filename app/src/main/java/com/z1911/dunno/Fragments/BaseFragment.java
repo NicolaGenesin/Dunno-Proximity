@@ -17,8 +17,8 @@ public class BaseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) activity).getBus().register(this);
         try {
-            ((MainActivity) activity).getBus().register(this);
             mCommunicationDelegate = (ICommunication) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement ICommunication");

@@ -20,7 +20,7 @@ import dagger.Provides;
 public class FacebookModule {
 
     private static Permission[] permissions = new Permission[]{
-            Permission.USER_PHOTOS,
+            Permission.USER_FRIENDS,
             Permission.EMAIL,
             Permission.PUBLISH_ACTION
     };

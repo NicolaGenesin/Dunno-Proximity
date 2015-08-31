@@ -27,6 +27,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.otto.Bus;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Event;
+import com.sromku.simple.fb.entities.Profile;
+import com.sromku.simple.fb.listeners.OnFriendsListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.z1911.dunno.EventApplication;
 import com.z1911.dunno.Fragments.CreateEventDescriptionFragment;
@@ -42,6 +44,7 @@ import com.z1911.dunno.R;
 import com.z1911.dunno.Util.Ui;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -101,6 +104,27 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
                 Fragment fragment;
                 if (mSimpleFacebook.isLogin()) {
                     fragment = new MainPageFragment();
+                    mSimpleFacebook.getFriends(new OnFriendsListener() {
+                        @Override
+                        public void onComplete(List<Profile> response) {
+                            super.onComplete(response);
+                        }
+
+                        @Override
+                        public void onFail(String reason) {
+                            super.onFail(reason);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            super.onException(throwable);
+                        }
+
+                        @Override
+                        public void getNext() {
+                            super.getNext();
+                        }
+                    });
                 } else {
                     fragment = new FacebookFragment();
                 }
@@ -260,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements ICommunication {
     }
 
     @Override
-    public void getFriends(String FragmentName) {
+    public void getFriends() {
         mSimpleFacebook.getFriends(new OnFacebookFriendsListener(mBus));
     }
 

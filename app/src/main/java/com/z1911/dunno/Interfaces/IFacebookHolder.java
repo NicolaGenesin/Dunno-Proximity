@@ -5,7 +5,7 @@ package com.z1911.dunno.Interfaces;
  * Copyright (C) 2015 1911.
  */
 public interface IFacebookHolder {
-    void getFriends(String FragmentName);
+    void getFriends();
 
     void getEvents();
 
