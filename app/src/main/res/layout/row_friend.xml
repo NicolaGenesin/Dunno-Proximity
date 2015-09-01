@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_container"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:src="@android:drawable/ic_input_add"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linear_row"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/image_friendPicture" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nicola Genesin"
-        android:id="@+id/text_friendName" />
-</LinearLayout>
+        <ImageView
+            android:id="@+id/image_friendPicture"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="12dp"
+            android:src="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:id="@+id/text_friendName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="Nicola Genesin"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/linear_row"
+        android:background="#55666666"></View>
+</RelativeLayout>
+

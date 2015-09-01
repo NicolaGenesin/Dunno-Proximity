@@ -42,6 +42,6 @@ public class CreateEventMapsFragment extends BaseFragment {
 
     @OnClick(R.id.button_acceptMap)
     public void acceptMapPressEvent() {
-        mCommunicationDelegate.changeTo(new ConfirmCreateEventFragment());
+        mCommunicationDelegate.changeTo(new FriendsSelectorFragment());
     }
 }
